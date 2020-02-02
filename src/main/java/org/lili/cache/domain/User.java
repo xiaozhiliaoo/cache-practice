@@ -1,5 +1,6 @@
 package org.lili.cache.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -8,9 +9,9 @@ import lombok.Data;
  * @description
  */
 @Data
+@AllArgsConstructor
 public class User {
     private int id;
     private String userName;
     private int age;
-    private String phoneNumber;
 }

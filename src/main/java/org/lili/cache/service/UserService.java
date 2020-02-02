@@ -12,4 +12,6 @@ import org.springframework.stereotype.Service;
 
 public interface UserService {
     User findById(int id);
+    User updateUserById(int id);
+    void delteById(int id);
 }

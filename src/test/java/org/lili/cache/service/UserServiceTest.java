@@ -23,6 +23,21 @@ public class UserServiceTest extends BaseUnitTest {
 
     @Test
     public void findById() {
+        userService.findById(1);
+        // find from cache
+        userService.findById(1);
+        userService.findById(1);
+        userService.findById(1);
         log.info("user is: {}", JSON.toJSONString(userService.findById(1)));
+        //update cache
+        userService.updateUserById(1);
+        log.info("user is: {}", JSON.toJSONString(userService.findById(1)));
+        //delete cache read from db
+        userService.delteById(1);
+        userService.findById(1);
+        userService.findById(1);
+        log.info("user is: {}", JSON.toJSONString(userService.findById(1)));
+
+
     }
 }
