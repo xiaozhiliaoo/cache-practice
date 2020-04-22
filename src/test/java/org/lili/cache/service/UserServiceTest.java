@@ -40,4 +40,13 @@ public class UserServiceTest extends BaseUnitTest {
 
 
     }
+
+    @Test
+    public void testlog() {
+        try {
+            int i = 6 / 0;
+        }catch (Exception e) {
+            log.error("ddd:{}", "");
+        }
+    }
 }

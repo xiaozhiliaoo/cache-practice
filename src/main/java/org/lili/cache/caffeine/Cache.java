@@ -12,13 +12,19 @@ import java.util.concurrent.TimeUnit;
  * https://github.com/ben-manes/caffeine/wiki/Benchmarks
  */
 public class Cache  {
-    LoadingCache<String, String> graphs = Caffeine.newBuilder()
+    private static LoadingCache<String, String> graphs = Caffeine.newBuilder()
             .maximumSize(10_000)
-            .expireAfterWrite(5, TimeUnit.MINUTES)
-            .refreshAfterWrite(1, TimeUnit.MINUTES)
+            .expireAfterWrite(5, TimeUnit.SECONDS)
+            .refreshAfterWrite(5, TimeUnit.SECONDS)
             .build(key -> createExpensiveGraph(key));
 
-    private String createExpensiveGraph(String key) {
-        return null;
+    private static String createExpensiveGraph(String key) {
+        return "123";
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        createExpensiveGraph("lili");
+        System.out.println(graphs.get("lili"));
+        Thread.sleep(100000);
     }
 }
