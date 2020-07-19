@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @notes
  */
 public class Cache {
+    //这种策略叫read-through策略
     private static LoadingCache<String, String> graphs = CacheBuilder.newBuilder()
             .expireAfterWrite(2, TimeUnit.SECONDS)
             .refreshAfterWrite(2,TimeUnit.SECONDS)
