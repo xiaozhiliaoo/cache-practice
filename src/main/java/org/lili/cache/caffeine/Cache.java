@@ -11,20 +11,36 @@ import java.util.concurrent.TimeUnit;
  * @description https://github.com/ben-manes/caffeine/wiki/Design
  * https://github.com/ben-manes/caffeine/wiki/Benchmarks
  */
-public class Cache  {
+public class Cache {
+
+    private static ThreadLocal<String> companyId = new InheritableThreadLocal<>();
+
     private static LoadingCache<String, String> graphs = Caffeine.newBuilder()
             .maximumSize(10_000)
-            .expireAfterWrite(5, TimeUnit.SECONDS)
-            .refreshAfterWrite(5, TimeUnit.SECONDS)
+            .expireAfterWrite(10, TimeUnit.SECONDS)
+            .refreshAfterWrite(10, TimeUnit.SECONDS)
+            //.buildAsync((key -> createExpensiveGraph((String) key)));
             .build(key -> createExpensiveGraph(key));
 
+
     private static String createExpensiveGraph(String key) {
-        return "123";
+        String name = Thread.currentThread().getName();
+        System.out.println("notify createExpensiveGraph ..., threadName:" + name);
+        companyId.set(key);
+        return key + ":value";
     }
 
     public static void main(String[] args) throws InterruptedException {
-        createExpensiveGraph("lili");
-        System.out.println(graphs.get("lili"));
-        Thread.sleep(100000);
+        for (int i = 0; i < 100000; i++) {
+            Thread.sleep(500);
+            if (i % 10 == 0) {
+                System.out.println("refresh.... " + i);
+                //异步，但是丢失了companyId
+                //graphs.refresh("lili");
+                graphs.invalidate("lili");
+            }
+            System.out.println("k-v:" + graphs.get("lili"));
+            System.out.println("companyID:" + companyId.get());
+        }
     }
 }
