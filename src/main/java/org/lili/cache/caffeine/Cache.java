@@ -24,10 +24,12 @@ public class Cache {
 
 
     private static String createExpensiveGraph(String key) {
-        String name = Thread.currentThread().getName();
-        System.out.println("notify createExpensiveGraph ..., threadName:" + name);
         companyId.set(key);
-        return key + ":value";
+        String name = Thread.currentThread().getName();
+        System.out.println("notify createExpensiveGraph ..., threadName:" + name + ", companyId:" + companyId.get());
+        String s = key + ":value" + companyId.get();
+        companyId.remove();
+        return s;
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -36,10 +38,10 @@ public class Cache {
             if (i % 10 == 0) {
                 System.out.println("refresh.... " + i);
                 //异步，但是丢失了companyId
-                //graphs.refresh("lili");
-                graphs.invalidate("lili");
+                graphs.refresh("lili" + i);
+                //graphs.invalidate("lili");
             }
-            System.out.println("k-v:" + graphs.get("lili"));
+            System.out.println("k-v:" + graphs.get("lili" + i));
             System.out.println("companyID:" + companyId.get());
         }
     }

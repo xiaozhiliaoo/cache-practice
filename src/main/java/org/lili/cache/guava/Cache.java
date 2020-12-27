@@ -3,6 +3,7 @@ package org.lili.cache.guava;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +32,9 @@ public class Cache {
     }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
+
+        System.out.println(ObjectSizeCalculator.getObjectSize(graphs));
+
         createExpensiveGraph("lili");
         for (int i = 0; i < 1000; i++) {
             Thread.sleep(1000);
