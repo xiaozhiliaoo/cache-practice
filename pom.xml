@@ -12,7 +12,7 @@
     <properties>
         <spring.version>4.3.13.RELEASE</spring.version>
 <!--        <spring.version>5.2.3.RELEASE</spring.version>-->
-        <logger-4j.version>2.13.0</logger-4j.version>
+        <logger-4j.version>2.15.0</logger-4j.version>
         <junit.version>4.13</junit.version>
     </properties>
 
